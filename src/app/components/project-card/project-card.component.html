@@ -1,0 +1,36 @@
+<div class="project-card" [style.border-top-color]="project.color">
+  <div class="card-accent" [style.background-color]="project.color"></div>
+  <div class="card-content">
+    <div class="card-header">
+      <h3 class="project-name">{{ project.name }}</h3>
+      <span class="task-count-badge" [style.background-color]="project.color + '22'" [style.color]="project.color">
+        {{ taskCount }} {{ taskCount === 1 ? 'task' : 'tasks' }}
+      </span>
+    </div>
+    <p class="project-description">{{ project.description || 'No description provided.' }}</p>
+    <div class="progress-section">
+      <div class="progress-info">
+        <span class="progress-label">Completion</span>
+        <span class="progress-percentage">{{ completionPercentage }}%</span>
+      </div>
+      <div class="progress-bar-track">
+        <div
+          class="progress-bar-fill"
+          [style.width.%]="completionPercentage"
+          [style.background-color]="project.color"
+        ></div>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-open" (click)="onOpen()" title="Open project">
+        📂 Open
+      </button>
+      <button class="btn btn-edit" (click)="onEdit()" title="Edit project">
+        ✏️ Edit
+      </button>
+      <button class="btn btn-delete" (click)="onDelete()" title="Delete project">
+        🗑️ Delete
+      </button>
+    </div>
+  </div>
+</div>

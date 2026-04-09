@@ -1,0 +1,64 @@
+<div class="project-list-page">
+  <div class="page-header">
+    <h1 class="page-title">Projects</h1>
+    <button class="btn btn-primary" (click)="openCreateModal()">
+      <span class="btn-icon">+</span> Add Project
+    </button>
+  </div>
+
+  @if (projects.length === 0) {
+    <div class="empty-state">
+      <div class="empty-state-emoji">📂</div>
+      <h2 class="empty-state-title">No projects yet</h2>
+      <p class="empty-state-description">
+        Get started by creating your first project to organize your tasks.
+      </p>
+      <button class="btn btn-primary" (click)="openCreateModal()">
+        <span class="btn-icon">+</span> Create Your First Project
+      </button>
+    </div>
+  } @else {
+    <div class="project-grid">
+      @for (project of projects; track project.id) {
+        <app-project-card
+          [project]="project"
+          [taskCount]="getTaskCount(project.id)"
+          [completedTaskCount]="getCompletedTaskCount(project.id)"
+          (edit)="openEditModal(project)"
+          (delete)="openDeleteConfirmation(project)"
+          (viewDetails)="navigateToProject(project.id)"
+        ></app-project-card>
+      }
+    </div>
+  }
+
+  @if (isModalOpen) {
+    <app-project-modal
+      [project]="selectedProject"
+      [isEditMode]="isEditMode"
+      (save)="onSaveProject($event)"
+      (close)="closeModal()"
+    ></app-project-modal>
+  }
+
+  @if (isDeleteConfirmationOpen && projectToDelete) {
+    <div class="modal-overlay" (click)="closeDeleteConfirmation()">
+      <div class="delete-dialog" (click)="$event.stopPropagation()">
+        <div class="delete-dialog-icon">⚠️</div>
+        <h2 class="delete-dialog-title">Delete Project</h2>
+        <p class="delete-dialog-message">
+          Are you sure you want to delete <strong>{{ projectToDelete.name }}</strong>?
+          This will also remove all tasks associated with this project. This action cannot be undone.
+        </p>
+        <div class="delete-dialog-actions">
+          <button class="btn btn-secondary" (click)="closeDeleteConfirmation()">
+            Cancel
+          </button>
+          <button class="btn btn-danger" (click)="confirmDelete()">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

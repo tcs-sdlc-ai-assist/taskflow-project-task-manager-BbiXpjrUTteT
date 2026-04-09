@@ -1,0 +1,46 @@
+<nav role="navigation" aria-label="Mobile navigation" class="bottom-nav">
+  <a
+    routerLink="/"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="bottom-nav-item"
+    aria-label="Dashboard"
+  >
+    <span class="bottom-nav-icon">📊</span>
+    <span class="bottom-nav-label">Dashboard</span>
+    <span class="active-dot"></span>
+  </a>
+
+  <a
+    routerLink="/projects"
+    routerLinkActive="active"
+    class="bottom-nav-item"
+    aria-label="Projects"
+  >
+    <span class="bottom-nav-icon">📁</span>
+    <span class="bottom-nav-label">Projects</span>
+    <span class="active-dot"></span>
+  </a>
+
+  <a
+    routerLink="/tasks"
+    routerLinkActive="active"
+    class="bottom-nav-item"
+    aria-label="Tasks"
+  >
+    <span class="bottom-nav-icon">✅</span>
+    <span class="bottom-nav-label">Tasks</span>
+    <span class="active-dot"></span>
+  </a>
+
+  <a
+    routerLink="/analytics"
+    routerLinkActive="active"
+    class="bottom-nav-item"
+    aria-label="Analytics"
+  >
+    <span class="bottom-nav-icon">📈</span>
+    <span class="bottom-nav-label">Analytics</span>
+    <span class="active-dot"></span>
+  </a>
+</nav>

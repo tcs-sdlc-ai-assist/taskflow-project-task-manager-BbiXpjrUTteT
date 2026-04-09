@@ -1,0 +1,125 @@
+<div class="project-board">
+  <header class="board-header">
+    <div class="header-left">
+      <a routerLink="/projects" class="back-link">
+        ← Back to Projects
+      </a>
+      @if (project) {
+        <h1 class="project-title">
+          <span class="color-dot" [style.background-color]="project.color"></span>
+          {{ project.name }}
+        </h1>
+      }
+    </div>
+    <button class="btn btn-primary add-task-btn" (click)="openAddTaskModal()">
+      + Add Task
+    </button>
+  </header>
+
+  @if (project) {
+    <div class="kanban-board">
+      <!-- To Do Column -->
+      <div class="kanban-column column-todo">
+        <div class="column-header todo-header">
+          <h2>To Do</h2>
+          <span class="task-count">{{ todoTasks.length }}</span>
+        </div>
+        <div class="column-body">
+          @if (todoTasks.length === 0) {
+            <div class="empty-state">
+              <span class="empty-icon">📋</span>
+              <p>No tasks yet</p>
+            </div>
+          } @else {
+            @for (task of todoTasks; track task.id) {
+              <app-task-card
+                [task]="task"
+                (edit)="openEditTaskModal(task)"
+                (delete)="confirmDeleteTask(task)"
+                (moveStatus)="onMoveTaskStatus(task.id, $event)"
+              ></app-task-card>
+            }
+          }
+        </div>
+      </div>
+
+      <!-- In Progress Column -->
+      <div class="kanban-column column-inprogress">
+        <div class="column-header inprogress-header">
+          <h2>In Progress</h2>
+          <span class="task-count">{{ inProgressTasks.length }}</span>
+        </div>
+        <div class="column-body">
+          @if (inProgressTasks.length === 0) {
+            <div class="empty-state">
+              <span class="empty-icon">🚧</span>
+              <p>No tasks in progress</p>
+            </div>
+          } @else {
+            @for (task of inProgressTasks; track task.id) {
+              <app-task-card
+                [task]="task"
+                (edit)="openEditTaskModal(task)"
+                (delete)="confirmDeleteTask(task)"
+                (moveStatus)="onMoveTaskStatus(task.id, $event)"
+              ></app-task-card>
+            }
+          }
+        </div>
+      </div>
+
+      <!-- Done Column -->
+      <div class="kanban-column column-done">
+        <div class="column-header done-header">
+          <h2>Done</h2>
+          <span class="task-count">{{ doneTasks.length }}</span>
+        </div>
+        <div class="column-body">
+          @if (doneTasks.length === 0) {
+            <div class="empty-state">
+              <span class="empty-icon">✅</span>
+              <p>No completed tasks</p>
+            </div>
+          } @else {
+            @for (task of doneTasks; track task.id) {
+              <app-task-card
+                [task]="task"
+                (edit)="openEditTaskModal(task)"
+                (delete)="confirmDeleteTask(task)"
+                (moveStatus)="onMoveTaskStatus(task.id, $event)"
+              ></app-task-card>
+            }
+          }
+        </div>
+      </div>
+    </div>
+  } @else {
+    <div class="empty-state board-empty">
+      <span class="empty-icon">😕</span>
+      <p>Project not found</p>
+      <a routerLink="/projects" class="btn btn-secondary">Go to Projects</a>
+    </div>
+  }
+
+  @if (showTaskModal) {
+    <app-task-modal
+      [task]="selectedTask"
+      [projectId]="project!.id"
+      (save)="onSaveTask($event)"
+      (close)="closeTaskModal()"
+    ></app-task-modal>
+  }
+
+  @if (showDeleteConfirm) {
+    <div class="modal-overlay" (click)="cancelDelete()">
+      <div class="delete-dialog" (click)="$event.stopPropagation()">
+        <h3>Delete Task</h3>
+        <p>Are you sure you want to delete "<strong>{{ taskToDelete?.title }}</strong>"? This action cannot be undone.</p>
+        <div class="dialog-actions">
+          <button class="btn btn-secondary" (click)="cancelDelete()">Cancel</button>
+          <button class="btn btn-danger" (click)="onDeleteTask()">Delete</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

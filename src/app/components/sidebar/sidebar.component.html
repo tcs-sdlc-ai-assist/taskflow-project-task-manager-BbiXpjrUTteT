@@ -1,0 +1,32 @@
+<nav role="navigation" aria-label="Main navigation" class="sidebar">
+  <div class="sidebar-logo">
+    <span class="logo-icon">📋</span>
+    <span class="logo-text">TaskFlow</span>
+  </div>
+  <ul class="nav-list">
+    <li class="nav-item">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link" aria-label="Dashboard">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Dashboard</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a routerLink="/projects" routerLinkActive="active" class="nav-link" aria-label="Projects">
+        <span class="nav-icon">📁</span>
+        <span class="nav-label">Projects</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a routerLink="/tasks" routerLinkActive="active" class="nav-link" aria-label="Tasks">
+        <span class="nav-icon">✅</span>
+        <span class="nav-label">Tasks</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a routerLink="/analytics" routerLinkActive="active" class="nav-link" aria-label="Analytics">
+        <span class="nav-icon">📈</span>
+        <span class="nav-label">Analytics</span>
+      </a>
+    </li>
+  </ul>
+</nav>

@@ -1,0 +1,17 @@
+<div class="app-layout">
+  <app-sidebar
+    class="sidebar-container"
+    [activeRoute]="activeRoute"
+    (navClick)="onNavClick($event)">
+  </app-sidebar>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+
+  <app-bottom-nav
+    class="bottom-nav-container"
+    [activeRoute]="activeRoute"
+    (navClick)="onNavClick($event)">
+  </app-bottom-nav>
+</div>

@@ -1,0 +1,23 @@
+<div class="progress-bar-container">
+  @if (label) {
+    <div class="progress-bar-header">
+      <span class="progress-bar-label">{{ label }}</span>
+      <span class="progress-bar-percentage">{{ clampedPercentage }}%</span>
+    </div>
+  }
+  <div class="progress-bar-track">
+    <div
+      class="progress-bar-fill"
+      [style.width.%]="clampedPercentage"
+      [style.background-color]="color"
+      role="progressbar"
+      [attr.aria-valuenow]="clampedPercentage"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      [attr.aria-label]="label ? label + ' progress: ' + clampedPercentage + '%' : clampedPercentage + '% complete'"
+    ></div>
+  </div>
+  @if (!label) {
+    <span class="progress-bar-percentage-inline">{{ clampedPercentage }}%</span>
+  }
+</div>

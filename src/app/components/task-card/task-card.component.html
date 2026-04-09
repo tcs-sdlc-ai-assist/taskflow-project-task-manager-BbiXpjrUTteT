@@ -1,0 +1,83 @@
+<div class="task-card" [ngStyle]="{ 'border-left': '4px solid ' + getPriorityColor() }">
+  <div class="task-card__header">
+    <h3 class="task-card__title">{{ task.title }}</h3>
+    <div class="task-card__actions">
+      <button
+        class="task-card__action-btn task-card__action-btn--edit"
+        (click)="onEdit()"
+        title="Edit task"
+        type="button"
+      >
+        <span class="task-card__icon">✏️</span>
+      </button>
+      <button
+        class="task-card__action-btn task-card__action-btn--delete"
+        (click)="onDelete()"
+        title="Delete task"
+        type="button"
+      >
+        <span class="task-card__icon">🗑️</span>
+      </button>
+    </div>
+  </div>
+
+  @if (task.description) {
+    <p class="task-card__description">{{ truncatedDescription }}</p>
+  }
+
+  <div class="task-card__meta">
+    <span class="task-card__priority-pill" [ngStyle]="{ 'background-color': getPriorityBackgroundColor() }">
+      <span class="task-card__priority-dot" [ngStyle]="{ 'background-color': getPriorityColor() }"></span>
+      {{ task.priority | titlecase }}
+    </span>
+
+    <span class="task-card__status-badge" [ngStyle]="{ 'background-color': getStatusBackgroundColor(), 'color': getStatusColor() }">
+      {{ getStatusLabel() }}
+    </span>
+  </div>
+
+  <div class="task-card__footer">
+    <span class="task-card__date">{{ task.createdAt | date:'mediumDate' }}</span>
+
+    <div class="task-card__status-actions">
+      @if (task.status === 'todo') {
+        <button
+          class="task-card__transition-btn task-card__transition-btn--start"
+          (click)="onStatusChange('inprogress')"
+          title="Start task"
+          type="button"
+        >
+          ▶ Start
+        </button>
+      }
+      @if (task.status === 'inprogress') {
+        <button
+          class="task-card__transition-btn task-card__transition-btn--complete"
+          (click)="onStatusChange('done')"
+          title="Complete task"
+          type="button"
+        >
+          ✓ Complete
+        </button>
+        <button
+          class="task-card__transition-btn task-card__transition-btn--back"
+          (click)="onStatusChange('todo')"
+          title="Move back to To Do"
+          type="button"
+        >
+          ← To Do
+        </button>
+      }
+      @if (task.status === 'done') {
+        <button
+          class="task-card__transition-btn task-card__transition-btn--reopen"
+          (click)="onStatusChange('inprogress')"
+          title="Reopen task"
+          type="button"
+        >
+          ↺ Reopen
+        </button>
+      }
+    </div>
+  </div>
+</div>

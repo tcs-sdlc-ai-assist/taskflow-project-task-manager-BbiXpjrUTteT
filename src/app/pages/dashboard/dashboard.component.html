@@ -1,0 +1,142 @@
+<div class="dashboard-container">
+  <!-- Welcome Banner -->
+  <section class="welcome-banner">
+    <div class="welcome-content">
+      <h1 class="welcome-title">Welcome back! 👋</h1>
+      <p class="welcome-subtitle">Here's an overview of your productivity</p>
+      <div class="welcome-stats">
+        <span class="welcome-stat">
+          <span class="stat-value active">{{ activeTasks }}</span>
+          <span class="stat-label">Active</span>
+        </span>
+        <span class="welcome-stat">
+          <span class="stat-value completed">{{ completedTasks }}</span>
+          <span class="stat-label">Completed</span>
+        </span>
+        <span class="welcome-stat">
+          <span class="stat-value overdue">{{ overdueTasks }}</span>
+          <span class="stat-label">Overdue</span>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  @if (hasData) {
+    <!-- Summary Cards Grid -->
+    <section class="summary-section">
+      <div class="summary-grid">
+        <app-summary-card
+          title="Total Projects"
+          [value]="summary.totalProjects"
+          icon="📁"
+          color="#6366f1"
+        />
+        <app-summary-card
+          title="Total Tasks"
+          [value]="summary.totalTasks"
+          icon="📋"
+          color="#3b82f6"
+        />
+        <app-summary-card
+          title="Completed"
+          [value]="summary.completedTasks"
+          icon="✅"
+          color="#22c55e"
+        />
+        <app-summary-card
+          title="In Progress"
+          [value]="summary.inProgressTasks"
+          icon="⏳"
+          color="#f59e0b"
+        />
+      </div>
+    </section>
+
+    <!-- Recent Tasks Section -->
+    <section class="recent-tasks-section">
+      <div class="section-header">
+        <h2 class="section-title">Recent Tasks</h2>
+      </div>
+      @if (recentTasks.length > 0) {
+        <div class="recent-tasks-list">
+          @for (task of recentTasks; track task.id) {
+            <div class="task-card">
+              <div class="task-card-header">
+                <span class="task-priority" [class]="'priority-' + task.priority">
+                  {{ task.priority }}
+                </span>
+                <span class="task-status" [class]="'status-' + task.status">
+                  {{ task.status === 'done' ? 'Done' : task.status === 'inprogress' ? 'In Progress' : 'To Do' }}
+                </span>
+              </div>
+              <h3 class="task-title">{{ task.title }}</h3>
+              @if (task.description) {
+                <p class="task-description">{{ task.description }}</p>
+              }
+              <div class="task-meta">
+                <span class="task-date">{{ task.createdAt | date:'mediumDate' }}</span>
+                @if (getProjectName(task.projectId); as projectName) {
+                  <span class="task-project">{{ projectName }}</span>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="empty-state-inline">
+          <p>No tasks yet. Create your first task to get started!</p>
+        </div>
+      }
+    </section>
+
+    <!-- Project Progress Section -->
+    <section class="project-progress-section">
+      <div class="section-header">
+        <h2 class="section-title">Project Progress</h2>
+      </div>
+      @if (projectProgress.length > 0) {
+        <div class="project-progress-list">
+          @for (project of projectProgress; track project.id) {
+            <div class="project-progress-item">
+              <div class="project-info">
+                <span class="project-color-dot" [style.background-color]="project.color"></span>
+                <span class="project-name">{{ project.name }}</span>
+                <span class="project-count">{{ project.completedTasks }}/{{ project.totalTasks }} tasks</span>
+              </div>
+              <app-progress-bar
+                [percentage]="project.percentage"
+                [color]="project.color"
+                [label]="project.name"
+              />
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="empty-state-inline">
+          <p>No projects yet. Create a project to track your progress!</p>
+        </div>
+      }
+    </section>
+  } @else {
+    <!-- Empty State -->
+    <section class="empty-state">
+      <div class="empty-state-content">
+        <div class="empty-state-illustration">📊</div>
+        <h2 class="empty-state-title">No data yet</h2>
+        <p class="empty-state-message">
+          Start by creating your first project and adding tasks to see your dashboard come to life!
+        </p>
+      </div>
+    </section>
+  }
+
+  @if (errorMessage) {
+    <section class="error-state">
+      <div class="error-state-content">
+        <div class="error-state-illustration">⚠️</div>
+        <p class="error-state-message">{{ errorMessage }}</p>
+        <button class="retry-button" (click)="loadData()">Retry</button>
+      </div>
+    </section>
+  }
+</div>

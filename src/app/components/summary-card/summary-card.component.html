@@ -1,0 +1,13 @@
+<div class="summary-card" [style.--accent-color]="color">
+  <div class="summary-card__icon-wrapper">
+    <span class="summary-card__icon">{{ icon }}</span>
+  </div>
+  <div class="summary-card__content">
+    <h3 class="summary-card__title">{{ title }}</h3>
+    <p class="summary-card__value">{{ value | number }}</p>
+    @if (subtitle) {
+      <p class="summary-card__subtitle">{{ subtitle }}</p>
+    }
+  </div>
+  <div class="summary-card__accent-bar"></div>
+</div>
